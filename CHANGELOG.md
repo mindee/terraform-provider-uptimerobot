@@ -1,3 +1,7 @@
+# v1.1.2
+- build: add support for darwin_arm64 by [@paretl]
+- go: upgrade to version 1.17 [@paretl]
+
 # v1.1.1
 - resource monitor: fix support for timeout by [@paretl]
 
