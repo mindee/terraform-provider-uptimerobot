@@ -1,3 +1,6 @@
+# v1.1.3
+- resource monitor: fix getting timeout (by [@kevincali](https://github.com/kevincali))
+
 # v1.1.2
 - build: add support for darwin_arm64 by [@paretl]
 - go: upgrade to version 1.17 [@paretl]
