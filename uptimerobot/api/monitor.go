@@ -146,6 +146,7 @@ func (client UptimeRobotApiClient) GetMonitor(id int) (m Monitor, err error) {
 	m.Type = intToString(monitorType, int(monitor["type"].(float64)))
 	m.Status = intToString(monitorStatus, int(monitor["status"].(float64)))
 	m.Interval = int(monitor["interval"].(float64))
+	m.Timeout = int(monitor["timeout"].(float64))
 	m.HTTPMethod = intToString(monitorHTTPMethod, int(monitor["http_method"].(float64)))
 
 	switch m.Type {
