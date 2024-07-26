@@ -1,3 +1,6 @@
+# v1.1.4
+- build: add support for windows by [@paretl]
+
 # v1.1.3
 - resource monitor: fix getting timeout (by [@kevincali](https://github.com/kevincali))
 
