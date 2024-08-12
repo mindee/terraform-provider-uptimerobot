@@ -44,3 +44,12 @@ resource `uptimerobot_alert_contact` `slack` {
 
 * `id` - the ID of the alert contact.
 * `status` - the status of the alert contact (`not activated`, `paused` or `active`)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Alert contact can be imported by specifying the identifier.
+terraform import uptimerobot_alert_contact.example 456
+```

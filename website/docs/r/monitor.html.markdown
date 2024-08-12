@@ -74,3 +74,12 @@ resource "uptimerobot_monitor" "my_website" {
 
 * `id` - the ID of the monitor (can be used for monitor-specific requests)
 * `status` - the status of the monitor (`paused`, `not checked yet`, `up`, `seems down`, or `down`)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Monitor can be imported by specifying the numeric identifier.
+terraform import uptimerobot_monitor.example 123
+```
