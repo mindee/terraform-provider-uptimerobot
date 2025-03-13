@@ -95,18 +95,19 @@ func (client UptimeRobotApiClient) GetAlertContacts() (acs []AlertContact, err e
 }
 
 func (client UptimeRobotApiClient) GetAlertContact(id string) (ac AlertContact, err error) {
+	// Initialize the return struct with the requested ID
 	ac.ID = id
-	data := url.Values{}
-	data.Add("alert_contacts", id)
-
+	
+	// Make API call without filtering (since the API doesn't support it properly)
 	body, err := client.MakeCall(
 		"getAlertContacts",
-		data.Encode(),
+		"", // No filter parameters
 	)
 	if err != nil {
 		return
 	}
 
+	// Extract the alert_contacts array from the response
 	alertcontacts, ok := body["alert_contacts"].([]interface{})
 	if !ok {
 		j, _ := json.Marshal(body)
@@ -114,12 +115,35 @@ func (client UptimeRobotApiClient) GetAlertContact(id string) (ac AlertContact, 
 		return
 	}
 
-	alertcontact := alertcontacts[0].(map[string]interface{})
+	// Find the alert contact with the matching ID
+	found := false
+	for _, contact := range alertcontacts {
+		alertcontact, ok := contact.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		
+		// Check if this is the alert contact we're looking for
+		contactID, ok := alertcontact["id"].(string)
+		if !ok {
+			continue
+		}
+		
+		if contactID == id {
+			// Found the matching alert contact, extract its details
+			ac.FriendlyName = alertcontact["friendly_name"].(string)
+			ac.Value = alertcontact["value"].(string)
+			ac.Type = intToString(alertContactType, int(alertcontact["type"].(float64)))
+			ac.Status = intToString(alertContactStatus, int(alertcontact["status"].(float64)))
+			found = true
+			break
+		}
+	}
 
-	ac.FriendlyName = alertcontact["friendly_name"].(string)
-	ac.Value = alertcontact["value"].(string)
-	ac.Type = intToString(alertContactType, int(alertcontact["type"].(float64)))
-	ac.Status = intToString(alertContactStatus, int(alertcontact["status"].(float64)))
+	// Return an error if the alert contact wasn't found
+	if !found {
+		err = errors.New("Alert contact with ID " + id + " not found")
+	}
 
 	return
 }
